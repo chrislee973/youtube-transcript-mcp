@@ -293,10 +293,11 @@ def get_full_transcript(video_url: str) -> str:
         except Exception as e:
             # Handle case when no transcript exists
             title = get_video_title(video_url)
-            return f"No transcript available for video: {title}"
+
+            return f"No transcript available for video: {title})"
     except Exception as e:
         title = get_video_title(video_url)
-        return f"Error retrieving transcript: {str(e)}\nVideo: {title} (ID: {parse_video_id(video_url)})"
+        return f"Error retrieving transcript: {str(e)}\nVideo: {title})"
 
 
 @mcp.tool()
