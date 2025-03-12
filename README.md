@@ -2,6 +2,8 @@
 
 A MCP server for accessing and interacting with Youtube transcripts. Raw transcripts from Youtube are by default unpunctuated, so this handles automatic formatting and punctuating for better readability.
 
+Note: Right now only English transcripts are supported.
+
 ## Tools
 
 The server offers the following tools:
@@ -31,7 +33,7 @@ The server offers the following tools:
     - `end_time` (number): Ending timestamp in seconds
   - Returns: Transcript section within the specified time range
 
-## Example Queries
+## Example Usage
 
 When using with Claude or other AI assistants:
 
@@ -77,3 +79,5 @@ uv run mcp install -e . server.py
 ```
 
 **Important:** After installing the server, restart Claude Desktop for the changes to take effect.
+
+TODO: add instructions for manually adding the server to the claude_desktop_config

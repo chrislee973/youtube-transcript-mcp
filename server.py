@@ -240,27 +240,6 @@ class TranscriptDict:
 
         return section
 
-    def translate_transcript(self, language: str) -> List[Dict]:
-        """
-        Translate the transcript to another language.
-
-        Args:
-            language: Target language
-
-        Returns:
-            List of transcript entries in the target language
-        """
-        if not self.has_transcript:
-            return []
-
-        try:
-            # Try to find a translation
-            translated = self.transcript.translate(language.lower())
-            return translated.fetch()
-        except Exception:
-            # If translation fails, return original with a note
-            return self.transcript_data
-
 
 def format_timestamp(seconds: float) -> str:
     """Convert seconds to HH:MM:SS format"""
@@ -283,48 +262,6 @@ def generate_link(url: str, timestamp: int, title: Optional[str] = None) -> str:
     #     return f"[{title}](https://www.youtube.com/watch?v={video_id}&t={timestamp_seconds}s)"
     # else:
     return f"https://www.youtube.com/watch?v={video_id}&t={timestamp_seconds}s"
-
-
-# Resources
-# @mcp.resource("transcript://{video_url}")
-# def get_transcript(video_url: str) -> str:
-#     """Get the full transcript of a YouTube video"""
-#     video_id = parse_video_id(video_url)
-#     try:
-#         transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-#         transcript = transcript_list.find_transcript(["en"])
-#         transcript_data = transcript.fetch()
-#
-#         # Format transcript with timestamps
-#         formatted_transcript = ""
-#         for entry in transcript_data:
-#             timestamp = format_timestamp(entry["start"])
-#             formatted_transcript += f"[{timestamp}] {entry['text']}\n\n"
-#
-#         return formatted_transcript
-#     except Exception as e:
-#         # Handle case when no transcript exists
-#         title = get_video_title(video_url)
-#         return f"No transcript available for video: {title}"
-
-
-# @mcp.resource("video-info://{video_url}")
-# def get_video_info(video_url: str) -> str:
-#     """Get information about a YouTube video"""
-#     video_id = parse_video_id(video_url)
-#     title = get_video_title(video_url)
-#
-#     try:
-#         transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-#
-#         # Get available languages
-#         available_languages = []
-#         for transcript in transcript_list:
-#             available_languages.append(transcript.language)
-#
-#         return f"Title: {title}\nVideo ID: {video_id}\nAvailable transcript languages: {', '.join(available_languages)}"
-#     except Exception as e:
-#         return f"Title: {title}\nNo transcripts available for this video."
 
 
 # Tool versions of the resources

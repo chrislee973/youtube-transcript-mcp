@@ -8,3 +8,7 @@ wheels/
 
 # Virtual environments
 .venv
+
+# random
+.prettierignore
+implementation_reference.html
