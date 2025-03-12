@@ -65,7 +65,7 @@ Install the required dependencies:
 ```bash
 git clone https://github.com/yourusername/youtube-transcript-mcp.git
 cd youtube-transcript-mcp
-uv pip install -r requirements.txt
+uv venv && uv pip install -r pyproject.toml
 ```
 
 ### Setting Up the MCP Server
