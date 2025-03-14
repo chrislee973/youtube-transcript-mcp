@@ -5,8 +5,44 @@ import re
 import requests
 from urllib.parse import urlparse, parse_qs
 
+
+# Set custom description for the MCP server
+server_description = """
+This server helps you work with YouTube video transcripts. You can search for specific terms within transcripts, retrieve full transcripts, get specific sections, and obtain video information.
+ 
+## Key Features:
+- Get full transcripts of YouTube videos
+- Search for specific terms or phrases within transcripts
+- Retrieve specific sections of transcripts by timestamp
+- Get video information including available transcript languages
+
+## Important Formatting Instructions:
+
+1. **Transcript Formatting**: When displaying transcript text to users, always format it to be readable by:
+   - Adding proper punctuation and paragraphing
+   - Removing unnecessary filler words
+   - Creating logical paragraph breaks
+
+2. **Timestamp Links**: Always include clickable timestamp links when displaying transcript content:
+   - Format: `[[HH:MM:SS]](https://www.youtube.com/watch?v=VIDEO_ID&t=XXs)`
+   - Each paragraph should be preceded by its timestamp link
+   - This allows users to click directly to that point in the video
+
+3. **Search Results**: When displaying search results:
+   - Include the timestamped link for each match
+   - Format the context clearly with appropriate section headers
+   - Make it easy to distinguish between the match and its context
+   - If the snippet containing the match is too short, include the context before and after the match to provide more context
+
+4. **Video Attribution**: Always cite the original video by including:
+   - The video title when available
+   - Direct links to the specific timestamps in the video
+
+Remember that raw YouTube transcripts are often unpunctuated and difficult to read. Your job is to transform them into a readable format while preserving the ability to reference the original source material through timestamp links.
+"""
+
 # Create a FastMCP server
-mcp = FastMCP("youtube-transcript-mcp")
+mcp = FastMCP("youtube-transcript-mcp", instructions=server_description)
 
 
 # Helper functions (reused from your existing implementation)
@@ -328,12 +364,35 @@ def get_video_information(video_url: str) -> str:
 @mcp.tool()
 def search_transcript(video_url: str, query: str, context_window: int = 15) -> str:
     """
-    Search for occurrences of a term in a YouTube video transcript. Returns transcript sections containing the query with timestamps,
-    including context before and after each match.
+    Search for occurrences of a term in a YouTube video transcript. Returns transcript sections containing the query with timestamps, including context before and after each match.
 
-    When finally returning and displaying the search results to the user, you must also prepend the timestamped links to each result.
-    These timestamped links should be in the format [[HH:MM:SS]](https://www.youtube.com/watch?v=VIDEO_ID&t=XXs) where XXs refers to the timestamp in seconds.
+    When finally returning and displaying the search results to the user, you must also prepend the timestamped links to each result. These timestamped links should be in the format [[HH:MM:SS]](https://www.youtube.com/watch?v=VIDEO_ID&t=XXs) where XXs refers to the timestamp in seconds.
 
+    Additionally, when finally returning the search results to the user, if the snippet containing the match is too short, you should include the context before and after the match to provide more context.
+    For example, if a search result for "AWS" returns the following:
+
+    <example-search-result>
+    === CONTEXT BEFORE (AVAILABLE: 3s) ===
+    [00:00] early on you decided that you were going
+    [00:01] to build an infro layer on top of other
+
+    === QUERY MATCH ===
+    [00:03] info providers like AWS and a lot of you (Link: https://www.youtube.com/watch?v=9SqYFxp9yRM&t=3s)
+
+    === CONTEXT AFTER (AVAILABLE: 14s) ===
+    [00:06] know a lot of folks in the in the infer
+    [00:09] Community were like well what's the
+    [00:11] point of that right why why do you need
+    [00:13] versel when you've got AWS so could you
+    [00:15] go take us back in history a second and
+    [00:17] and talk us through how you got to your
+    </example-search-result>
+
+    The query match is too short to be usable, so you should include the context before and after the match to provide more context.
+
+    <example-response-to-user>
+    [00:00] Early on you decided that you were going to build an infra layer on top of other [00:03] infra providers like AWS and a lot of you know, [00:06] a lot of folks in the infra Community were like "Well, what's the point of that, right? [00:11] Why why do you need [00:13] Vercel when you've got AWS?" So could you [00:15] go take us back in history a second and [00:17] talk us through how you got to your
+    </example-response-to-user>
 
     Args:
         video_url: YouTube video URL or ID

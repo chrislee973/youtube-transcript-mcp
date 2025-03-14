@@ -38,19 +38,19 @@ The server offers the following tools:
 When using with Claude or other AI assistants:
 
 ```
-Extract all questions asked by the interviewer in this YouTube video: https://www.youtube.com/watch?v=VIDEO_ID
+Extract all questions asked by the interviewer in this YouTube video: https://www.youtube.com/watch?v=B7OwcXCE5Rg
 ```
 
 ```
-"Find all mentions of 'climate change' in this video and create a timeline of when these topics are discussed: https://www.youtube.com/watch?v=VIDEO_ID"
+Find all mentions of 'invention' in this video and create a timeline of when these topics are discussed: https://www.youtube.com/watch?v=uQ88yC35NjI
 ```
 
 ```
-"Create a study guide with key concepts and timestamps from this lecture: https://www.youtube.com/watch?v=VIDEO_ID"
+Create a study guide with key concepts and timestamps from this lecture: https://www.youtube.com/watch?v=kCc8FmEb1nY
 ```
 
 ```
-Return the transcript from 2:30 to 5:45 in this video: https://www.youtube.com/watch?v=VIDEO_ID
+Return the transcript from 2:30 to 5:45 in this video: https://www.youtube.com/watch?v=kCc8FmEb1nY
 ```
 
 ## Local Installation
